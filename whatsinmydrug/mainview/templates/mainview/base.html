@@ -3,17 +3,24 @@
 <html>
     <head>
         <title>Hello</title>
-        
         <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.3/css/uikit.min.css" />
- 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.3/js/uikit.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.3/js/uikit-icons.min.js"></script>
+        <link rel="stylesheet" type="text/css" href="{% static 'mainview/styles.css' %}">
     </head>
     <body>
+        <nav class="uk-navbar-container" uk-navbar>
+            <div class="uk-navbar-left">
+                <ul class="uk-navbar-nav">
+                <li class="uk-active"><a href="Drug information">Drug information</a></li>
+                <li class="uk-parent"><a href="Coś innego">Coś innego</a></li>
+                <li><a href=""></a></li>
+                </ul>
+            </div>
+        </nav>
         {% block content %}
         {% endblock content %}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.3/js/uikit.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.3/js/uikit-icons.min.js"></script>
     </body>  
 </html>

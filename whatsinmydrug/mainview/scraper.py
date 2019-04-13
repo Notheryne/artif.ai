@@ -29,13 +29,13 @@ def scrape_db(drug_id):
         this[fields[i]] = inside[i]
 
     imp_fields = ["Name", "Synonyms", "Description", "Indication", "Half life",
-                "Clearance", "Toxicity", "Food interactions"]
+                "Clearance", "Toxicity", "Food Interactions"]
 
     clean_dict = {}
     for i in imp_fields:
         if i in this.keys():
             text = this[i]
-            text = re.sub('\[\d\]', '', text)
+            text = re.sub(r'\[\d{1,3}\]', '', text)
             text = re.sub('\[Label\]', '', text)
             text = re.sub(' \.', '.', text)
             text = re.sub(r'[^\x00-\x7F]+', '', text)

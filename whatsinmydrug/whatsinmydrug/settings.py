@@ -31,6 +31,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'uikit_admin',
     'mainview.apps.MainviewConfig',
     'django.contrib.admin',
     'django.contrib.auth',

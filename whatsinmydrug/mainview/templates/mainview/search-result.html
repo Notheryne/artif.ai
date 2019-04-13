@@ -1,0 +1,40 @@
+{% extends "mainview/base.html" %}
+{% block content %}
+<div class="uk-grid-medium uk-child-width-expand@s " uk-grid>
+    <div class="uk-width-1-6@m"></div>
+    <div class="uk-card uk-card-default uk-card-body">
+      <div>
+        <ul class="uk-subnav uk-subnav-pill" uk-switcher>
+            {% for substance in substances %}
+                <li><a href="#">{{ substance }}</a></li>
+            {% endfor %}
+        </ul>
+ 
+        <ul class="uk-switcher uk-margin">
+         
+                {% for item in data %}
+                <li>
+                    {% for key, value in item.items %}
+                        <p class="uk-text-large">{{ key }}</p>
+                        <p class="uk-text-small">{{ value|linebreaks }}</p>
+                    {% endfor %}
+                </li>
+                {% endfor %}
+            
+            <!--<p class="uk-text-large">Synonyms:</p>
+            <p class="uk-text-small">4-(Acetylamino)phenol\n4-acetamidophenol\n4'-hydroxyacetanilide\nAcenol\nAcetaminofn\nActaminophne\nAPAP\nN-acetyl-p-aminophenol\np-acetamidophenol\np-acetaminophenol\np-Acetylaminophenol\np-hydroxy-acetanilid\np-hydroxyacetanilide\np-hydroxyphenolacetamide\nParactamol\nParacetamol\nParacetamolum</p>
+            <p class="uk-text-large">Description:</p>
+            <p class="uk-text-small">Paracetamolum:</p>-->
+ 
+ 
+ 
+ 
+          
+          <li>Hello again!</li>
+ 
+        </ul>
+      </div>
+    </div>
+    <div class="uk-width-1-6@m"></div>
+  </div>
+{% endblock content %}
