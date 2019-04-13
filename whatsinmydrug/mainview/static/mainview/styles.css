@@ -8,16 +8,20 @@
     text-align: center;
 
 }
+
 :focus {
     outline: 0;
 }
+
 #in:focus, input:focus{
     outline: none; !important;
     border: none; !important;
 }
+
 input:focus {
     outline:0;
 }
+
 input:active {
     outline: none;
     border: none;
