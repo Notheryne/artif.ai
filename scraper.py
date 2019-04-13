@@ -105,12 +105,7 @@ def get_full_list(list_names):
     for x in range(len(list_id)):
         list_scrapes.append(scrape_db(list_id[x]))
 
-<<<<<<< HEAD
-    names = [i['Name'] for i in list_scrapes]
-    articles = scrape_scientist(names)
-=======
         names = [i['Name'] for i in list_scrapes]
         articles = scrape_scientist(names)
 
->>>>>>> e1c86c76ada702a49ada6a25b7799dbbde627f03
     return list_scrapes, articles
