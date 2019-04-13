@@ -1,0 +1,56 @@
+{% extends "mainview/base.html" %}
+{% block content %}
+<style>
+        ::-webkit-input-placeholder {
+           color: #808080;
+           text-align: center;
+     
+        }
+     
+        :-moz-placeholder {
+           color: #808080;
+           text-align: center;
+     
+        }
+        :focus {
+    outline: 0;
+    }
+    #in:focus, input:focus{
+        outline: none; !important;
+        border: none; !important;
+    }
+    input:focus {outline:0;}
+    input:active {
+    outline: none;
+    border: none;
+    background-color: gray;
+    }
+    !important;
+        </style>
+
+<div class ="uk-child-width-expand@s uk-text-center"  uk-grid >
+        <div><img width="800" height="800" src="logo.svg" uk-svg></div>
+ 
+ 
+    </div>
+ 
+    <div class="uk-grid-medium uk-child-width-expand@s uk-text-center" uk-grid>
+    <div class="uk-width-1-6@m">
+ 
+    </div>
+    <div>
+        <div class="uk-card uk-card-default uk-card-body"><h1 class="uk-heading-primary" style="color:#24718A">Enter active substances</h1>
+ 
+    <form method="POST" action="{% url 'search-drugs'%}">
+        {% csrf_token %}
+        <input id-"in" placeholder="Enter substances separated by commas" class="uk-input uk-margin-small-bottom" type="text" name="substances"></input>
+        <button type="submit" style="color: white; background-color: #24718A;" class="uk-button uk-button-secondary uk-width-1-1">Search</button>
+    </form>
+
+    </div>
+    </div>
+    <div class="uk-width-1-6@m">
+ 
+    </div>
+</div>
+{% endblock content %}
