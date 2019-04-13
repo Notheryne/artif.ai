@@ -7,7 +7,8 @@ import json
 
 def scrape_sc(names):
     url = "https://www.the-scientist.com/search?for="
-    urls = [request.urlopen(url=url + name) for name in names]
+    urlnames = [url + name for name in names]
+    urls = [request.urlopen(url=urlname) for urlname in urlnames]
     articles = []
 
     pages = []
@@ -50,8 +51,12 @@ def scrape_scientist(names):
     #articles = []
     res = {}
     for name in names:
-        a = scrape_sc([name])
-        res[name] = a
+        try:
+            a = scrape_sc([name])
+            res[name] = a
+        except:
+            res[name] = ["No articles found."]
+            continue
     return res
 
 def scrape_db(drug_id):
@@ -100,8 +105,7 @@ def get_full_list(list_names):
     for x in range(len(list_id)):
         list_scrapes.append(scrape_db(list_id[x]))
 
-    names = [i['Name'] for i in list_scrapes]
-    articles = scrape_scientist(names)
-    return list_scrapes, articles
+        names = [i['Name'] for i in list_scrapes]
+        articles = scrape_scientist(names)
 
-drugs = ['paracetamolum', 'caffeine']
+    return list_scrapes, articles
