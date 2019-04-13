@@ -103,5 +103,3 @@ def get_full_list(list_names):
     names = [i['Name'] for i in list_scrapes]
     articles = scrape_scientist(names)
     return list_scrapes, articles
-
-drugs = ['paracetamolum', 'caffeine']
