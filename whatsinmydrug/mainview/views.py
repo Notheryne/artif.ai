@@ -9,6 +9,7 @@ def home(request):
     return render(request, 'mainview/homepage.html')
 
 def get_drug_names(request):
+
     if 'image-input' in request.POST:
         if request.method == 'POST' and request.FILES['image']:
             myfile = request.FILES['image']
@@ -18,11 +19,14 @@ def get_drug_names(request):
             return render(request, 'mainview/search-result.html')
         else:
             return render(request, 'mainview/search-result.html')
+
     elif 'text-input':
         user_input = request.POST['substances']
         substances = user_input.split(',')
-        data = get_full_list(substances)
-        return render(request, 'mainview/search-result.html', {"substances": substances, "data": data})
+        scraping_result = get_full_list(substances)
+        data = scraping_result[0]
+        articles = scraping_result[1]
+        return render(request, 'mainview/search-result.html', {"substances": substances, "data": data, "articles": articles})
     else:
         return render(request, 'mainview/search-result.html')
     

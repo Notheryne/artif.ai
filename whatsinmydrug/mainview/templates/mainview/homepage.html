@@ -33,9 +33,14 @@
 
                   <form method="POST" action="{% url 'search-drugs' %}" enctype="multipart/form-data">
                     {% csrf_token %}
-
+                    <div class="js-upload uk-placeholder uk-text-center">
+                        <span uk-icon="icon: cloud-upload"></span>
+                        <span class="uk-text-middle">Attach image by dropping it here or</span>
+                        <div uk-form-custom>
                         <input type="file" name="image">
-     
+                        <span class="uk-link">selecting one</span>
+                        </div>
+                    </div>
                     <button type="submit" style="color: white; background-color: #24718A;" class="uk-button uk-button-secondary uk-width-1-1" name="image-input">Search</button>
                   </form>
 
@@ -44,68 +49,7 @@
               </li>
      
             </ul>
-            <script>
-              var bar = document.getElementById('js-progressbar');
-     
-              UIkit.upload('.js-upload', {
-     
-                url: '',
-                multiple: true,
-     
-                beforeSend: function() {
-                  console.log('beforeSend', arguments);
-                },
-                beforeAll: function() {
-                  console.log('beforeAll', arguments);
-                },
-                load: function() {
-                  console.log('load', arguments);
-                },
-                error: function() {
-                  console.log('error', arguments);
-                },
-                complete: function() {
-                  console.log('complete', arguments);
-                },
-     
-                loadStart: function(e) {
-                  console.log('loadStart', arguments);
-     
-                  bar.removeAttribute('hidden');
-                  bar.max = e.total;
-                  bar.value = e.loaded;
-                },
-     
-                progress: function(e) {
-                  console.log('progress', arguments);
-     
-                  bar.max = e.total;
-                  bar.value = e.loaded;
-                },
-     
-                loadEnd: function(e) {
-                  console.log('loadEnd', arguments);
-     
-                  bar.max = e.total;
-                  bar.value = e.loaded;
-                },
-     
-                completeAll: function() {
-                  console.log('completeAll', arguments);
-     
-                  setTimeout(function() {
-                    bar.setAttribute('hidden', 'hidden');
-                  }, 1000);
-     
-                  alert('Upload Completed');
-                }
-     
-              });
-            </script>
-     
-     
-     
-     
+            
           </div>
         </div>
         <div class="uk-width-1-6@m"></div>
