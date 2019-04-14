@@ -99,11 +99,15 @@ def scrape_db(drug_id):
 
 def get_full_list(list_names):
     list_id = ID_from_Name(list_names)
+    print(list_id)
     list_scrapes = []
-    for x in range(len(list_id)):
-        list_scrapes.append(scrape_db(list_id[x]))
+    try:
+        for x in range(len(list_id)):
+            list_scrapes.append(scrape_db(list_id[x]))
 
-        names = [i['Name'] for i in list_scrapes]
-        articles = scrape_scientist(names)
-
+            names = [i['Name'] for i in list_scrapes]
+            articles = scrape_scientist(names)
+    except:
+        articles = ["No articles found"]
+    #print(list_scrapes)
     return list_scrapes, articles

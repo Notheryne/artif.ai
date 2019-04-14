@@ -1,15 +1,15 @@
 {% extends "mainview/base.html" %}
 {% block content %}
 <div class="uk-grid-medium uk-child-width-expand@s " uk-grid>
-    <div class="uk-width-1-6@m"></div>
+    <div class="uk-width-1-7@m"></div>
 
     <div class="uk-margin-small-bottom">
         <h1 class="uk-heading-primary uk-text-center uk-margin-small-bottom"><span class="uk-animation-fade" style="color:#24718A">Ingridients:</span></h1>
         </div>
-        <div class="uk-width-1-6@m"></div>
+        <div class="uk-width-1-7@m"></div>
         </div>
         <div class="uk-grid-medium uk-child-width-expand@s uk-margin-small-top uk-margin-small-left uk-margin-small-right uk-animation-fade uk-animation-fast" uk-grid>
-        <div class="uk-width-1-6@m"></div>
+        <div class="uk-width-1-7@m"></div>
 
     <div class="uk-card uk-card-default uk-card-body">
       <div>
@@ -24,6 +24,7 @@
                 {% for item in data %}
                 <li>
                     {% for key, value in item.items %}
+
                         <p class="uk-text-large">{{ key }}</p>
                         <p class="uk-text-small">{{ value|linebreaks }}</p>
                     {% endfor %}
@@ -57,6 +58,6 @@
         </ul>
       </div>
     </div>
-    <div class="uk-width-1-6@m"></div>
+    <div class="uk-width-1-7@m"></div>
   </div>
 {% endblock content %}

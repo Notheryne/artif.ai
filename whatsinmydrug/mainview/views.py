@@ -1,9 +1,26 @@
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseForbidden
 from .scraper import *
+from .ocr_util_v2 import *
 from .forms import ImageUploadForm
 from .models import PhotoModel
 from django.core.files.storage import FileSystemStorage
+from py_translator import Translator
+import re
+
+def care_ocr_output(ocr_otput):
+    ocr_otput = [x for x in ocr_otput if ord(x) < 128]
+    s2 = ''.join(ocr_otput)
+    s2 = re.sub('\\n',' ',s2)
+    ocr_otput = s2
+    print("FIRST CAREING : ",ocr_otput)
+   # ocr_otput = Translator().translate(text=ocr_otput, dest='en').text
+    print("AFTER ")
+    ocr_otput = ocr_otput.lower()
+    ocr_otput = ocr_otput.split(' ')
+    ocr_otput = [x for x in ocr_otput if len(x)>3]
+    
+    return ocr_otput
 
 def home(request):
     return render(request, 'mainview/homepage.html')
@@ -16,7 +33,16 @@ def get_drug_names(request):
             fs = FileSystemStorage()
             filename = fs.save(myfile.name, myfile)
             uploaded_file_url = fs.url(filename)
-            return render(request, 'mainview/search-result.html')
+            recognized_text = ocr_core2(uploaded_file_url)
+            print("Found: ",recognized_text.encode('utf-8'))
+            formatted_text = care_ocr_output(recognized_text)
+            print("formatted: ", formatted_text)
+            scraping_result = get_full_list(formatted_text)
+            data = scraping_result[0]
+            articles = scraping_result[1]
+            articles = ["No articles found"]
+            names = [i['Name'] for i in data]
+            return render(request, 'mainview/search-result.html', {"substances": names, "data": data, "articles": articles})
         else:
             return render(request, 'mainview/search-result.html')
 
@@ -26,9 +52,9 @@ def get_drug_names(request):
         scraping_result = get_full_list(substances)
         data = scraping_result[0]
         articles = scraping_result[1]
-        return render(request, 'mainview/search-result.html', {"substances": substances, "data": data, "articles": articles})
+        names = [i['Name'] for i in data]
+        print("xdxdxdxdxdxdx", substances)
+        return render(request, 'mainview/search-result.html', {"substances": names, "data": data, "articles": articles})
     else:
         return render(request, 'mainview/search-result.html')
     
-#def handle_uploaded_file(request):
-#    return
