@@ -4,6 +4,7 @@ from .scraper import *
 from .ocr_util_v2 import *
 from .forms import ImageUploadForm
 from .models import PhotoModel
+from .get_vitamins import *
 from django.core.files.storage import FileSystemStorage
 from py_translator import Translator
 import re
@@ -24,6 +25,24 @@ def care_ocr_output(ocr_otput):
 
 def home(request):
     return render(request, 'mainview/homepage.html')
+
+def home_fruits(request):
+    return render(request, 'mainview/homepage-fruits.html')
+
+def fruits_vitamins(request):
+    print("I'm here!!")
+    user_input = request.POST['fruit-name']
+    print("I'm here1")
+    print(type(user_input))
+    info = get_Vitamins(user_input.strip())
+    print("I'm here2")
+    substances = info["fruit_name"]
+    print(substances)
+    scraping_result = get_full_list(substances)
+    data = scraping_result[0]
+    articles = scraping_result[1]
+    names = [i['Name'] for i in data]
+    return render(request, 'mainview/search-result.html', {"substances": names, "data": data, "articles": articles})
 
 def get_drug_names(request):
 
@@ -53,7 +72,6 @@ def get_drug_names(request):
         data = scraping_result[0]
         articles = scraping_result[1]
         names = [i['Name'] for i in data]
-        print("xdxdxdxdxdxdx", substances)
         return render(request, 'mainview/search-result.html', {"substances": names, "data": data, "articles": articles})
     else:
         return render(request, 'mainview/search-result.html')

@@ -1,0 +1,40 @@
+{% extends "mainview/base.html" %}
+{% block content %}
+<div class="uk-child-width-expand@s uk-text-center" uk-grid>
+        <div><img width="600" height="600" src="/media/logo2.png" uk-svg></div>
+</div>
+     
+<div class="uk-grid-medium uk-child-width-expand@s uk-text-center" uk-grid>
+        <div class="uk-width-1-6@m"></div>
+     
+        <div>
+          <div class="uk-card uk-card-default uk-card-body">
+            <ul uk-accordion>
+              <li>
+                <a class="uk-accordion-title uk-text-large" style="color:#1F8453" href="#">Input Fruit</a>
+     
+                </a>
+                <div class="uk-accordion-content">
+                  <form method="POST" action="{% url 'fruits-vitamins'%}">
+                    {% csrf_token %}
+                    <input id-"in" placeholder="Enter fruit" class="uk-input uk-margin-small-bottom" type="text" name="fruit-name"></input>
+                    <button type="submit" formmethod="post" style="color: white; background-color: #1F8453;" class="uk-button uk-button-secondary uk-width-1-1">Search</button>
+                  </form>
+     
+                </div>
+              </li>
+     
+     
+            </ul>
+     
+     
+     
+     
+     
+     
+     
+          </div>
+        </div>
+        <div class="uk-width-1-6@m"></div>
+      </div>
+{% endblock content %}

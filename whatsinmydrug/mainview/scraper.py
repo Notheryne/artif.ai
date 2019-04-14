@@ -5,6 +5,85 @@ import re
 from .get_ids import *
 import json
 
+def scrape_dr(names):
+    url = "https://www.drugs.com/drug-interactions/"
+    urlnames = [url + name + ".html" for name in names]
+    urls = [urlopen(Request(url=urlname, headers={'User-Agent': 'Mozilla/5.0'})) for urlname in urlnames]
+
+    urlsindex = [url + name + '-index.html?filter=3' for name in names]
+    urls_index = [urlopen(Request(url=urlindex, headers={'User-Agent': 'Mozilla/5.0'})) for urlindex in urlsindex]
+
+    pages = []
+    pages_index = []
+
+    interactions_counter = {}
+    interaction = {}
+
+    for url in urls:
+        with url as response:
+            pages.append(response.read())
+
+    for url in urls_index:
+        with url as response:
+            pages_index.append(response.read())
+
+    souper = BeautifulSoup(pages[0], "html.parser")
+
+    soup = souper.find_all("li", {"class" : "int_3"})
+    soup2 = souper.find_all("li", {"class" : "int_2"})
+    soup3 = souper.find_all("li", {"class" : "int_1"})
+
+    major = soup[0].text.split(" ")[0]
+    interactions_counter["major"] = int(major)
+
+    moderate = soup2[0].text.split(" ")[0]
+    interactions_counter["moderate"] = int(moderate)
+
+    minor = soup3[0].text.split(" ")[0]
+    interactions_counter["minor"] = int(minor)
+
+    diseases = []
+
+    for i in soup[1:]:
+        diseases.append(i.text)
+
+    soup = BeautifulSoup(pages_index[0], "html.parser")
+
+    soup = soup.find_all("li", {"class" : "int_3"})
+    interaction["drugs"] = ['\n' + s.text for s in soup[0:interactions_counter["major"]]]
+    interaction["diseases"] = diseases
+
+    sum = 0
+
+    for key, value in interactions_counter.items():
+        sum += value
+
+    partly = [round((value/sum) * 100, 2) for key, value in interactions_counter.items()]
+
+    return interaction, partly
+
+def scrape_drugs(names):
+    res = []
+    for name in names:
+        try:
+            a = scrape_dr([name])[1]
+            res.append(a)
+        except:
+            res.append("No interactions found")
+            continue
+    sum = 0
+
+    for key,value in res[0].items():
+        sum += value
+
+    partly = []
+
+    for key, value in res[0].items():
+        partly.append((value/sum) * 100)
+
+    partly = [round(i, 2) for i in partly]
+    return partly
+
 def scrape_sc(names):
     url = "https://www.the-scientist.com/search?for="
     urlnames = [url + name for name in names]
@@ -48,7 +127,6 @@ def scrape_sc(names):
     return articles
 
 def scrape_scientist(names):
-    #articles = []
     res = {}
     for name in names:
         try:
@@ -89,25 +167,36 @@ def scrape_db(drug_id):
     for i in imp_fields:
         if i in this.keys():
             text = this[i]
-            text = re.sub(r'\[\d{1,3}\]', '', text)
+            text = re.sub('\[\d\]', '', text)
+            text = re.sub('\[\d\d\]', '', text)
             text = re.sub('\[Label\]', '', text)
             text = re.sub(' \.', '.', text)
             text = re.sub(r'[^\x00-\x7F]+', '', text)
+            #text = re.sub('\\\n', '</br>', text)
             clean_dict[i] = text
 
+    scraped = scrape_dr([clean_dict["Name"].lower()])
+    clean_dict["Drug interactions"] = ', '.join(scraped[0]['drugs'])
+    clean_dict["Disease interactions"] = ', '.join(scraped[0]['diseases'])
+
+    clean_dict["major_num"] = scraped[1][0]
+
+    clean_dict["moderate_num"] = scraped[1][1]
+
+    clean_dict["minor_num"] = scraped[1][2]
+
+    #print(clean_dict["Name"])
     return clean_dict
 
 def get_full_list(list_names):
     list_id = ID_from_Name(list_names)
-    print(list_id)
     list_scrapes = []
-    try:
-        for x in range(len(list_id)):
-            list_scrapes.append(scrape_db(list_id[x]))
+    articles = []
+    for x in range(len(list_id)):
+        list_scrapes.append(scrape_db(list_id[x]))
 
-            names = [i['Name'] for i in list_scrapes]
-            articles = scrape_scientist(names)
-    except:
-        articles = ["No articles found"]
-    #print(list_scrapes)
+        names = [i['Name'] for i in list_scrapes]
+        articles = scrape_scientist(names)
+
     return list_scrapes, articles
+

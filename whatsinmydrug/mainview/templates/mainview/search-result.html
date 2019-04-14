@@ -4,7 +4,7 @@
     <div class="uk-width-1-7@m"></div>
 
     <div class="uk-margin-small-bottom">
-        <h1 class="uk-heading-primary uk-text-center uk-margin-small-bottom"><span class="uk-animation-fade" style="color:#24718A">Ingridients:</span></h1>
+        <h1 class="uk-heading-primary uk-text-center uk-margin-small-bottom"><span class="uk-animation-fade" style="color:#24718A">Ingredients</span></h1>
         </div>
         <div class="uk-width-1-7@m"></div>
         </div>
@@ -24,11 +24,18 @@
                 {% for item in data %}
                 <li>
                     {% for key, value in item.items %}
-
+                        {% if key == 'major_num' %}
+                        <p class="uk-text-large">Percentage of drug interactions</p>
+                        <span class="uk-label uk-label-danger">major: {{value}}% </span>
+                        {% elif key == 'moderate_num' %}
+                        <span class="uk-label uk-label-warning">moderate : {{value}}% </span>
+                        {% elif key == 'minor_num' %}
+                        <span class="uk-label">minor: {{value}}% </span>
+                        {% else %}
                         <p class="uk-text-large">{{ key }}</p>
-                        <p class="uk-text-small">{{ value|linebreaks }}</p>
+                        <p class="uk-text-small uk-margin-small-bottom">{{ value|linebreaks }}</p>
+                        {% endif %}
                     {% endfor %}
-                
                 
                 <ul uk-accordion>
                         <li>
@@ -44,11 +51,6 @@
                                         </div>
                                 {% endfor %}
                             {% endfor %}
-                            <!-- Element listy artykułów !-->
-                            <div class="uk-card  uk-card-hover uk-card-body">
-                              <h3 class="uk-card-title"><a class="uk-link-muted" href="TU WSTAW LINK DO ARTYKUŁU">TU WTAW NAZWE ARTYKUŁU</a></h3>
-                              TU WSTAW OPIS
-                            </div>
 
                           </div>
                         </li>
